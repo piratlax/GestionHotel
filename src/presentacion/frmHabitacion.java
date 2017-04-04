@@ -5,6 +5,10 @@
  */
 package presentacion;
 
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import logica.fHabitacion;
+
 /**
  *
  * @author Mao
@@ -16,8 +20,59 @@ public class frmHabitacion extends javax.swing.JFrame {
      */
     public frmHabitacion() {
         initComponents();
+        this.setLocationRelativeTo(null);
+                
+        inhabilitar();
     }
-
+    
+       private String accion="guardar";
+    
+       void ocultarColumna(){
+           tblHabitacion.getColumnModel().getColumn(0).setMaxWidth(0);
+           tblHabitacion.getColumnModel().getColumn(0).setPreferredWidth(0);
+       }
+       
+       void inhabilitar(){
+           txtHabitacion.setVisible(false);
+           jcPiso.setEnabled(false);
+           txtNumero.setEnabled(false);
+           txtPrecio.setEnabled(false);
+           txtDescripcion.setEnabled(false);
+           txtCaracteristicas.setEnabled(false);
+           jcEstado.setEnabled(false);
+           jcTipo.setEnabled(false);
+           btnGuardar.setEnabled(false);
+           btnCancelar.setEnabled(false);
+           btnEliminar.setEnabled(false);
+           
+       }
+       
+       void habilitar(){
+           txtHabitacion.setVisible(false);
+           jcPiso.setEnabled(true);
+           txtNumero.setEnabled(true);
+           txtPrecio.setEnabled(true);
+           txtDescripcion.setEnabled(true);
+           txtCaracteristicas.setEnabled(true);
+           jcEstado.setEnabled(true);
+           jcTipo.setEnabled(true);
+           btnGuardar.setEnabled(true);
+           btnCancelar.setEnabled(true);
+           btnEliminar.setEnabled(true);
+           
+       }
+       
+       void mostrar(String buscar){
+           try {
+               DefaultTableModel modelo;
+               fHabitacion func = new fHabitacion();
+               modelo=func.mostrar(buscar);
+               tblHabitacion.setModel(modelo);
+               lblRegistros.setText("Total de Registros "+Integer.toString(func.totalregistros));
+           } catch (Exception e) {
+               JOptionPane.showConfirmDialog(null, e);
+           }
+       }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -58,9 +113,11 @@ public class frmHabitacion extends javax.swing.JFrame {
         btnBuscar = new javax.swing.JButton();
         btnEliminar = new javax.swing.JButton();
         btnSalir = new javax.swing.JButton();
+        lblRegistros = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
+        jPanel1.setBackground(new java.awt.Color(204, 204, 204));
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Registro de Habitaciones"));
 
         jLabel1.setText("Numero");
@@ -96,8 +153,18 @@ public class frmHabitacion extends javax.swing.JFrame {
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Acciones"));
 
         btnNueva.setText("Nueva");
+        btnNueva.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNuevaActionPerformed(evt);
+            }
+        });
 
         btnGuardar.setText("Guardar");
+        btnGuardar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGuardarActionPerformed(evt);
+            }
+        });
 
         btnCancelar.setText("Cancelar");
 
@@ -156,7 +223,7 @@ public class frmHabitacion extends javax.swing.JFrame {
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(jLabel8)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
@@ -188,12 +255,13 @@ public class frmHabitacion extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel1)
                         .addComponent(txtNumero, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabel4)
-                        .addComponent(txtPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel6)
-                            .addComponent(jcTipo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(jcTipo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel4)
+                            .addComponent(txtPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1)
@@ -232,6 +300,8 @@ public class frmHabitacion extends javax.swing.JFrame {
 
         btnSalir.setText("Principal");
 
+        lblRegistros.setText("jLabel10");
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -248,6 +318,8 @@ public class frmHabitacion extends javax.swing.JFrame {
                         .addComponent(btnBuscar)
                         .addGap(18, 18, 18)
                         .addComponent(btnSalir)
+                        .addGap(48, 48, 48)
+                        .addComponent(lblRegistros, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnEliminar)))
                 .addContainerGap())
@@ -261,7 +333,8 @@ public class frmHabitacion extends javax.swing.JFrame {
                     .addComponent(txtBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnBuscar)
                     .addComponent(btnEliminar)
-                    .addComponent(btnSalir))
+                    .addComponent(btnSalir)
+                    .addComponent(lblRegistros))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -289,6 +362,35 @@ public class frmHabitacion extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnNuevaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevaActionPerformed
+       habilitar();
+       btnGuardar.setText("Guardar");
+       accion="guardar";
+    }//GEN-LAST:event_btnNuevaActionPerformed
+
+    private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
+       if (txtNumero.getText().equals("") ){
+           JOptionPane.showMessageDialog(rootPane, "Debes Ingresar un numero");
+           txtNumero.requestFocus();
+           return;
+       }
+       if (txtDescripcion.getText().equals("") ){
+           JOptionPane.showMessageDialog(rootPane, "Debes Ingresar una descripcion");
+           txtDescripcion.requestFocus();
+           return;
+       }
+       if (txtCaracteristicas.getText().equals("") ){
+           JOptionPane.showMessageDialog(rootPane, "Debes Ingresar una caracteristica");
+           txtCaracteristicas.requestFocus();
+           return;
+       }
+       if (txtPrecio.getText().equals("") ){
+           JOptionPane.showMessageDialog(rootPane, "Debes Ingresar un Precio");
+           txtPrecio.requestFocus();
+           return;
+       }
+    }//GEN-LAST:event_btnGuardarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -350,6 +452,7 @@ public class frmHabitacion extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> jcEstado;
     private javax.swing.JComboBox<String> jcPiso;
     private javax.swing.JComboBox<String> jcTipo;
+    private javax.swing.JLabel lblRegistros;
     private javax.swing.JTable tblHabitacion;
     private javax.swing.JTextField txtBuscar;
     private javax.swing.JTextArea txtCaracteristicas;
